@@ -1,0 +1,25 @@
+{
+    "name": "lml",
+    "displayName": "lml",
+    "description": "Provides syntax highlighting and bracket matching in LML files.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.67.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "lml",
+            "aliases": ["Lazy Markdown Language", "lml"],
+            "extensions": [".lml"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "lml",
+            "scopeName": "source.lml",
+            "path": "./syntaxes/lml.tmLanguage.json"
+        }]
+    }
+}

@@ -1,0 +1,361 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"information_for_contributors": [
+		"This file has been converted from https://github.com/textmate/lml.tmbundle/blob/master/Syntaxes/LML.tmLanguage",
+		"If you want to provide a fix or improvement, please create a pull request against the original repository.",
+		"Once accepted there, we are happy to receive an update request."
+	],
+	"version": "https://github.com/textmate/lml.tmbundle/commit/37c532ae892d2af2da76e05918af673efc1111a6",
+	"name": "Lazy Markdown Langauge",
+	"scopeName": "source.lml",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#groups"
+		},
+		{
+			"include": "#key_pair"
+		},
+		{
+			"include": "#invalid"
+		}
+	],
+	"repository": {
+		"comments": {
+			"begin": "(^[ \\t]+)?(?=(?:#|\/\/))",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.whitespace.comment.leading.lml"
+				}
+			},
+			"end": "(?!\\G)",
+			"patterns": [
+				{
+					"begin": "#",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.lml"
+						}
+					},
+					"end": "\\n",
+					"name": "comment.line.number-sign.lml"
+				},
+                {
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.comment.lml"
+						}
+					},
+					"match": "(//).*$\\n?",
+					"name": "comment.line.double-slash.lml"
+				}
+			]
+		},
+		"groups": {
+			"patterns": [
+				{
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.section.begin.lml"
+						},
+						"2": {
+							"patterns": [
+								{
+									"match": "[^\\s.]+",
+									"name": "entity.name.section.lml"
+								}
+							]
+						},
+						"3": {
+							"name": "punctuation.definition.section.begin.lml"
+						}
+					},
+					"match": "^\\s*(\\[)([^\\[\\]]*)(\\])",
+					"name": "meta.group.lml"
+				},
+				{
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.section.begin.lml"
+						},
+						"2": {
+							"patterns": [
+								{
+									"match": "[^\\s.]+",
+									"name": "entity.name.section.lml"
+								}
+							]
+						},
+						"3": {
+							"name": "punctuation.definition.section.begin.lml"
+						}
+					},
+					"match": "^\\s*(\\[\\[)([^\\[\\]]*)(\\]\\])",
+					"name": "meta.group.double.lml"
+				}
+			]
+		},
+		"invalid": {
+			"match": "\\S+(\\s*(?=\\S))?",
+			"name": "invalid.illegal.not-allowed-here.lml"
+		},
+		"key_pair": {
+			"patterns": [
+				{
+					"begin": "([A-Za-z0-9_-]+)\\s*(=)\\s*",
+					"captures": {
+						"1": {
+							"name": "variable.other.key.lml"
+						},
+						"2": {
+							"name": "punctuation.separator.key-value.lml"
+						}
+					},
+					"end": "(?<=\\S)(?<!=)|$",
+					"patterns": [
+						{
+							"include": "#primatives"
+						}
+					]
+				},
+				{
+					"begin": "((\")(.*)(\"))\\s*(=)\\s*",
+					"captures": {
+						"1": {
+							"name": "variable.other.key.lml"
+						},
+						"2": {
+							"name": "punctuation.definition.variable.begin.lml"
+						},
+						"3": {
+							"patterns": [
+								{
+									"match": "\\\\([btnfr\"\\\\]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})",
+									"name": "constant.character.escape.lml"
+								},
+								{
+									"match": "\\\\[^btnfr\"\\\\]",
+									"name": "invalid.illegal.escape.lml"
+								},
+								{
+									"match": "\"",
+									"name": "invalid.illegal.not-allowed-here.lml"
+								}
+							]
+						},
+						"4": {
+							"name": "punctuation.definition.variable.end.lml"
+						},
+						"5": {
+							"name": "punctuation.separator.key-value.lml"
+						}
+					},
+					"end": "(?<=\\S)(?<!=)|$",
+					"patterns": [
+						{
+							"include": "#primatives"
+						}
+					]
+				},
+				{
+					"begin": "((')([^']*)('))\\s*(=)\\s*",
+					"captures": {
+						"1": {
+							"name": "variable.other.key.lml"
+						},
+						"2": {
+							"name": "punctuation.definition.variable.begin.lml"
+						},
+						"4": {
+							"name": "punctuation.definition.variable.end.lml"
+						},
+						"5": {
+							"name": "punctuation.separator.key-value.lml"
+						}
+					},
+					"end": "(?<=\\S)(?<!=)|$",
+					"patterns": [
+						{
+							"include": "#primatives"
+						}
+					]
+				}
+			]
+		},
+		"primatives": {
+			"patterns": [
+				{
+					"begin": "\\G\"\"\"",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.begin.lml"
+						}
+					},
+					"end": "\"\"\"",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.end.lml"
+						}
+					},
+					"name": "string.quoted.triple.double.lml",
+					"patterns": [
+						{
+							"match": "\\\\([btnfr\"\\\\]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})",
+							"name": "constant.character.escape.lml"
+						},
+						{
+							"match": "\\\\[^btnfr\"\\\\\\n]",
+							"name": "invalid.illegal.escape.lml"
+						}
+					]
+				},
+				{
+					"begin": "\\G\"",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.begin.lml"
+						}
+					},
+					"end": "\"",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.end.lml"
+						}
+					},
+					"name": "string.quoted.double.lml",
+					"patterns": [
+						{
+							"match": "\\\\([btnfr\"\\\\]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})",
+							"name": "constant.character.escape.lml"
+						},
+						{
+							"match": "\\\\[^btnfr\"\\\\]",
+							"name": "invalid.illegal.escape.lml"
+						}
+					]
+				},
+				{
+					"begin": "\\G'''",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.begin.lml"
+						}
+					},
+					"end": "'''",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.end.lml"
+						}
+					},
+					"name": "string.quoted.triple.single.lml"
+				},
+				{
+					"begin": "\\G'",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.begin.lml"
+						}
+					},
+					"end": "'",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.end.lml"
+						}
+					},
+					"name": "string.quoted.single.lml"
+				},
+				{
+					"match": "\\G(?x)\n\t\t\t\t\t\t[0-9]{4}\n\t\t\t\t\t\t-\n\t\t\t\t\t\t(0[1-9]|1[012])\n\t\t\t\t\t\t-\n\t\t\t\t\t\t(?!00|3[2-9])[0-3][0-9]\n\t\t\t\t\t\t(\n\t\t\t\t\t\t\t[Tt]\n\t\t\t\t\t\t\t(?!2[5-9])[0-2][0-9]\n\t\t\t\t\t\t\t:\n\t\t\t\t\t\t\t[0-5][0-9]\n\t\t\t\t\t\t\t:\n\t\t\t\t\t\t\t(?!6[1-9])[0-6][0-9]\n\t\t\t\t\t\t\t(\\.[0-9]+)?\n\t\t\t\t\t\t\t(\n\t\t\t\t\t\t\t\tZ\n\t\t\t\t\t\t\t  | [+-](?!2[5-9])[0-2][0-9]:[0-5][0-9]\n\t\t\t\t\t\t\t)?\n\t\t\t\t\t\t)?\n\t\t\t\t\t",
+					"name": "constant.other.date.lml"
+				},
+				{
+					"match": "\\G(true|false)",
+					"name": "constant.language.boolean.lml"
+				},
+				{
+					"match": "\\G([+-]?(0|([1-9](([0-9]|_[0-9])+)?)))(\\.([0-9](([0-9]|_[0-9])+)?))?([eE]([+-]?(0|([1-9](([0-9]|_[0-9])+)?))))?",
+					"name": "constant.numeric.lml"
+				},
+				{
+					"begin": "\\G\\[",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.array.begin.lml"
+						}
+					},
+					"end": "\\]",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.array.end.lml"
+						}
+					},
+					"name": "meta.array.lml",
+					"patterns": [
+						{
+							"begin": "(?=[\"'']|[+-]?[0-9]|true|false|\\[|\\{)",
+							"end": ",|(?=])",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.separator.array.lml"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#primatives"
+								},
+								{
+									"include": "#comments"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "\\G\\{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.inline-table.begin.lml"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.inline-table.end.lml"
+						}
+					},
+					"name": "meta.inline-table.lml",
+					"patterns": [
+						{
+							"begin": "(?=\\S)",
+							"end": ",|(?=})",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.separator.inline-table.lml"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#key_pair"
+								}
+							]
+						},
+						{
+							"include": "#comments"
+						}
+					]
+				}
+			]
+		}
+	}
+}
