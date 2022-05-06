@@ -1,0 +1,97 @@
+#!/usr/bin/env xpie
+
+steps [
+    { [exec] program file:///usr/bin/env arguments ['python3' '-m' 'pip' 'install' 'xipe' ] }
+    { if (cond is true) [add] source https://example.com as file:///example.html }
+    { [user] name lizelive }
+]
+
+[[steps]] [exec] program file:///usr/bin/env arguments ['python3' '-m' 'pip' 'install' 'xipe' ]
+[[steps]] if (cond is true) [add] source https://example.com as file:///example.html
+[[steps]] [user] name lizelive
+
+steps [
+    { [exec] program '/usr/bin/env' arguments ['python3' '-m' 'pip' 'install' 'xipe' ] }
+    { if '(cond is true)' [add] source 'https://example.com' as '/example.html' }
+    { [user] name 'lizelive' }
+]
+
+steps [
+    -   [exec]  program '/usr/bin/env'
+                arguments ['python3' '-m' 'pip' 'install' 'xipe' ]
+    -   if      '(cond is true)'
+        [add]   source  'https://example.com'
+                as      '/example.html'
+        [log]   msg     'hello_world'
+                sev     'trash'
+    -   [user]  name    'lizelive'
+]
+
+// stateless
+steps [
+    { exec { program '/usr/bin/env' arguments ['python3' '-m' 'pip' 'install' 'xipe' ] } }
+    { if '(cond is true)' add { source 'https://example.com' as '/example.html' } }
+    { user { name 'lizelive' } }
+]
+
+
+
+
+meta {
+    name 'my super image'
+}
+
+steps [
+    ['exec']
+    [list] [ 1 2 3 ]
+    { list [ 1 2 3 ] }
+    [exec]
+        program '/usr/bin/env'
+        arguments ['python3' '-m' 'pip' 'install' 'xipe' ]
+    { if (cond is true) [add] source 'https://example.com' as '/example.html' }
+    [user] name 'lizelive' uid 1000 gid 1000
+]
+
+[meta]
+lang 'en_US.UTF-8'
+
+
+[save]
+to 'remote'
+
+- [forcelist]
+- [wild]
+
+clear - 1 - 2 - 3
+
+RUN /bin/bash -c 'source $HOME/.bashrc; \
+echo $HOME'
+
+RUN ["/bin/bash", "-c", "echo hello"]
+
+
+REGEX /ab+c/
+
+
+/*
+[
+  {
+    "RUN": "/bin/bash -c 'source $HOME/.bashrc;\necho $HOME'"
+  },
+  {
+    "RUN": [
+      "/bin/bash",
+      "-c",
+      "echo hello"
+    ]
+  },
+  {
+      "REGEX" : { "$REGEX" : "/ab+c/" }
+  }
+]
+*/
+
+[stuff]
+bush = 'did 9/11'
+obama = 'did drone strikes'
+trump = 'did an insurrection'
